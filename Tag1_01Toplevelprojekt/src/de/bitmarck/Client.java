@@ -2,6 +2,7 @@ package de.bitmarck;
 
 import de.bitmarck.services.MyService;
 import de.bitmarck.services.MyServiceException;
+import de.bitmarck.translations.TranslationService;
 
 public class Client {
 
@@ -13,6 +14,10 @@ public class Client {
 
 
 	public void go() {
+		
+		TranslationService translationService = TranslationService.createInstance("lower").get();
+		System.out.println(translationService.translate("XxXxXx"));
+		
 		try {
 			service.foo();
 		} catch (MyServiceException e) {
