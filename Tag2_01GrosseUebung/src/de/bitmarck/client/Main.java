@@ -1,25 +1,27 @@
 package de.bitmarck.client;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.util.concurrent.TimeUnit;
+
+import de.bitmarck.characterpublisher.CharacterPublisher;
+import de.empfaenger.EndSubscriber;
 
 public class Main {
 	
-	public static void main(String[] args) {
-		try {
-			final var path = Path.of("text.txt");
-			
-			final String content = Files.readString(path);
-			
-			
-			System.out.println(content);
-			
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public static void main(String[] args) throws Exception{
+		
+		
+		var endSubscriber = new EndSubscriber<Character>();
+		
+		var publisher = CharacterPublisher.createInstance();
+		
+		publisher.subscribe(endSubscriber);
+		
+		publisher.start();
+		
+		var service = publisher.getExecuterService();
+		service.shutdown();
+		service.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS);
+		
 		
 		
 	}
